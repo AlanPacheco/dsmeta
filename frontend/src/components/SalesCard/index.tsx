@@ -17,17 +17,17 @@ function SalesCard() {
     const [sales, setSales] = useState<Sale[]>([]);
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/sales`)
+        const dmin = minDate.toISOString().slice(0,10);
+        const dmax = maxDate.toISOString().slice(0,10);
+        
+        console.log("dmin: " + dmin)
+        console.log("dmax: " + dmax)
+
+        axios.get(`${BASE_URL}/sales?minDate=${dmin}&maxDate=${dmax}`)
             .then(response => {
                 setSales(response.data.content);
-
-                for (let i = 0; i < sales.length; i++) {
-                    const { sellerName, amount } = sales[i];
-                    console.log("Vendedor: " + sellerName + " - Total: " + amount);
-                }
-
             })
-    }, []);
+    }, [minDate, maxDate]);
 
 
     return (
